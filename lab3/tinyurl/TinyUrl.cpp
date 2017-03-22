@@ -8,6 +8,7 @@
 #include <array>
 #include <memory>
 #include <iostream>
+#include <vector>
 
 namespace tinyurl {
 
@@ -38,7 +39,23 @@ namespace tinyurl {
         }
     }
 
-    std::string Encode(const std::string &url, std::unique_ptr<TinyUrlCodec> *codec) {}
+    std::string Encode(const std::string &url, std::unique_ptr<TinyUrlCodec> *codec) {
+        std::string code = "";
+        (*codec)->url_tab.emplace_back(url);
+        for(char v: (*codec)->hash){
+            code+=v;
+        }
+        (*codec)->hash_tab.emplace_back(code);
+        NextHash(&(*codec)->hash);
+        return code;
+    }
 
-    std::string Decode(const std::unique_ptr<TinyUrlCodec> &codec, const std::string &hash) {}
+    std::string Decode(const std::unique_ptr<TinyUrlCodec> &codec, const std::string &hash) {
+        int index;
+        for(std::string v: codec->hash_tab) {
+            index++;
+            if(hash == v) break;
+        }
+        return codec->url_tab[index];
+    }
 }

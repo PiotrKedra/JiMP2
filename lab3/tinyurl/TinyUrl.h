@@ -9,10 +9,13 @@
 #include <string>
 #include <array>
 #include <memory>
+#include <vector>
 
 namespace tinyurl{
     struct TinyUrlCodec{
         std::array<char, 6> hash;
+        std::vector<std::string> url_tab;
+        std::vector<std::string> hash_tab;
     };
     std::unique_ptr<TinyUrlCodec> Init();
     void NextHash(std::array<char, 6> *state);

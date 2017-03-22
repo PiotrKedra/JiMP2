@@ -53,7 +53,7 @@ namespace datastructures{
         std::unique_ptr<SmartTree> tree_out;
         int right_brackets = 0;
         int left_brackets = 0;
-        int i=0,k=0;
+        int i=0,j=0;
 
         do{
             if(str_tree[i] == '['){
@@ -68,11 +68,11 @@ namespace datastructures{
                     tree_out = std::move(CreateLeaf(std::stoi(value)));
                     value = "";
                 }
-                if(left_brackets == 2 and k==0){
+                if(left_brackets == 2 and j==0){
                     tree_out->left = std::move(RestoreTree(&(str_tree[i-1])));
-                    k=1;
+                    j++;
                 }
-                if(left_brackets == 2 and k==1){
+                if(left_brackets == 2 and j==1){
                     tree_out->right = std::move(RestoreTree(&(str_tree[i-1])));
                 }
             }
