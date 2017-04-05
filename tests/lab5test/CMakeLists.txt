@@ -8,6 +8,7 @@ set(TEST_LAB_NUMBER 5)
 #######################################################################
 add_gtest_with_memleak(memory_chunk libmemorychunk)
 add_gtest_with_memleak(text_pool libtextpool)
+add_gtest_with_memleak(matrix libmatrix)
 
 
 #######################################################################

@@ -9,20 +9,21 @@
 #include <experimental/optional>
 #include <complex>
 
-namespace nets{
+namespace algebra{
     class Matrix{
     public:
+        Matrix(std::complex<double> **param);
         Matrix(std::string param);
         ~Matrix();
 
-        std::string print_str();
+        std::string Print();
+        std::pair<size_t ,size_t> Size();
         Matrix add(Matrix m);
 
     private:
-        std::string matrix;
+        std::string matrix="";
         std::complex<double> **tab;
-        size_t rows = 0;
-        size_t columns = 0;
+        std::pair<size_t,size_t> size;
     };
 }
 

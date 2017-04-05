@@ -6,14 +6,19 @@
 #include "Matrix.h"
 
 
-using namespace nets;
+using namespace algebra;
 using std::cout;
 using std::endl; 
 
 
 int main(){
+    std::complex<double> tab[][3] = {{7 + 1.0i, 0., 0.}, {0., 1.0i, 0.}, {0., 0., 1.0i}};
     Matrix bob{"[1 1 1;1 1 1;1 1 1]"};
-    cout << bob.print_str() << endl;
+    cout << bob.Print() << endl;
+
+    Matrix b{tab};
+
+    cout << tab[0][0] << endl;
 
     std::string orbits = "365.24";
     std::string::size_type sz; // alias of size_t
