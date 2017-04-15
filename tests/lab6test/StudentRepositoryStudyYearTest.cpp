@@ -6,7 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <MemLeakTest.h>
-#include <StudentRepository.h>
+#include "StudentRepository.h"
 
 using ::academia::StudyYear;
 using ::std::make_unique;
