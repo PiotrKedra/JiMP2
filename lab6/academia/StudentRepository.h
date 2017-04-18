@@ -34,7 +34,7 @@ namespace academia{
         ~Student();
 
     private:
-        int id;
+        int Id;
         std::string first_name;
         std::string last_name;
         std::string program;

@@ -9,6 +9,6 @@ namespace academia{
             year(yearr) {}
     Student::Student() {}
     Student::Student(int idd, std::string firstname, std::string lastname, std::string programm, StudyYear yearr):
-            id(idd), first_name(firstname), last_name(lastname), program(programm), year(yearr){}
+            Id(idd), first_name(firstname), last_name(lastname), program(programm), year(yearr){}
     Student::~Student(){}
 }
