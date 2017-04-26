@@ -10,29 +10,21 @@ namespace arrays{
         return value_;
     }
 
-    SquaredFill::SquaredFill(){value_=1; b_=0;}
-    SquaredFill::SquaredFill(int value) {value_=value; b_=0;}
-    SquaredFill::SquaredFill(int value,int b){
-        value_=value;
+    SquaredFill::SquaredFill(int a,int b){
+        value_=a;
         b_=b;
     }
     int SquaredFill::Value(int index) const {
         return (value_*index*index)+b_;
     }
 
-    RandomFill::RandomFill(std::unique_ptr<std::default_random_engine> generator, std::unique_ptr<std::uniform_int_distribution<int>> distribution){
-        std::default_random_engine new_generator;
-        std::uniform_int_distribution<int> new_distribution(1,6);
-        value_=new_distribution(new_generator);
-    }
+    RandomFill::RandomFill(std::unique_ptr<std::default_random_engine> generator,
+                           std::unique_ptr<std::uniform_int_distribution<int>> distribution)
+            :generator_(move(generator)),distribution_(move(distribution)){}
     int RandomFill::Value(int index) const{
-        return value_;
+        return (*distribution_)(*generator_);
     }
 
-    IncrementalFill::IncrementalFill(int start){
-        start_=start;
-        step_=1;
-    }
     IncrementalFill::IncrementalFill(int start, int step){
         start_=start;
         step_=step;
