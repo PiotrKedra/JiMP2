@@ -10,7 +10,10 @@
 #include <sstream>
 
 namespace moviesubs{
-    class MovieSubtitles{
+    int ToMiliseconds(std::string time);
+    std::string FromMilisecondsToString(int time);
+
+        class MovieSubtitles{
     public:
         virtual std::string ShiftAllSubtitlesBy(int delay, int fps, std::stringstream *in, std::stringstream *out)=0;
     };
@@ -50,5 +53,6 @@ namespace moviesubs{
     public:
         InvalidSubtitleLineFormat(std::string message) : MovieSubtitlesException(message){}
     };
+
 }
 #endif //JIMP_EXERCISES_MOVIESUBTITLES_H

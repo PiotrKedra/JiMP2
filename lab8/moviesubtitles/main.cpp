@@ -21,10 +21,8 @@ int main(){
     if(std::regex_match(str, matches, pattern)){
         std::cout << str;
     }*/
-
-    std::string a="";
-
-    std::cout << std::stoi(a) << " tu co jestt";
+    int c=ToMiliseconds("01:02:10,101");
+    std::cout << c << " tu co jestt";
 
 
     return 0;
