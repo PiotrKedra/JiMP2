@@ -121,13 +121,15 @@ namespace moviesubs {
         else value+='0'+std::to_string(minutes)+':';
         if(secunds>10) value+=std::to_string(secunds)+',';
         else value+='0'+std::to_string(secunds)+',';
-        value+=std::to_string(miliseconds);
+        if(miliseconds>100) value+=std::to_string(miliseconds);
+        else if(miliseconds>10) value+='0'+std::to_string(miliseconds);
+        else value+="00"+std::to_string(miliseconds);
         return value;
     }
 
     std::string
     SubRipSubtitles::ShiftAllSubtitlesBy(int delay, int fps, std::stringstream *in, std::stringstream *out) {
-        int DelayPerFrame = int((float(delay) / 1000) * fps);
+        int DelayPerFrame = delay;
         std::string output = "";
         std::string input = in->str();
         int first_frame, second_frame;
@@ -135,8 +137,11 @@ namespace moviesubs {
         std::string first_frame_str = "";
         std::string second_frame_str = "";
         int current_subtitles = 1;
+        int current_line_in_curerent_subtitles = 1;
+        std::string next_subtitle="";
         bool move_to_another_subtitles = true;
         std::string tmp="";
+        int j;
         for (int i = 0; i < input.size(); ++i) {
             if (move_to_another_subtitles) {
                 move_to_another_subtitles=false;
@@ -144,13 +149,13 @@ namespace moviesubs {
                     output+=input[i];
                     ++i;
                 }
-                output[i]+='\n';
+                output+='\n';
                 ++i;
                 while(input[i]!='\n'){
                     time+=input[i];
                     ++i;
                 }
-                for(int j=0;j<time.size();++j){
+                for(j=0;j<time.size();++j){
                     if(j<=11){
                         first_frame_str+=time[j];
                     }
@@ -160,9 +165,26 @@ namespace moviesubs {
                 }
                 first_frame=ToMiliseconds(first_frame_str)+DelayPerFrame;
                 second_frame=ToMiliseconds(second_frame_str)+DelayPerFrame;
+                first_frame_str = FromMilisecondsToString(first_frame);
+                second_frame_str = FromMilisecondsToString(second_frame);
+                output += first_frame_str + " --> " + second_frame_str;
+                time="";
+                first_frame_str="";
+                second_frame_str="";
+                output+='\n';
+            } else{
+                output+=input[i];
+            }
+            if(input[i]=='\n' and input[i+1]=='\n' and input[i+2]!=NULL){
+                ++i;
+                output+=input[i];
+                ++i;
+                output+=input[i];
+                move_to_another_subtitles=true;
             }
         }
-
+        out->str(output);
+        return output;
     }
 
 }

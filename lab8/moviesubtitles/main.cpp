@@ -10,20 +10,11 @@
 using namespace moviesubs;
 
 int main(){
-    /*auto subs = std::make_unique<MicroDvdSubtitles>();
-    std::stringstream in {"{0}{250}TEXT\n{260}{300}NEWLINE\n"};
+    auto subs = std::make_unique<SubRipSubtitles>();
+    std::stringstream in {"1\n00:05:54,555 --> 00:05:56,722\nText\n\n2\n00:06:06,433 --> 00:06:07,801\nNEWLINE\n"};
     std::stringstream out;
-    subs->ShiftAllSubtitlesBy(300, 25, &in, &out);
+    subs->ShiftAllSubtitlesBy(300, 24, &in, &out);
 
-    std::regex pattern {R"(((\{([0-9]+)\}){2})((.)+))"};
-    std::string str = "{0123}{x}TEXT";
-    std::smatch matches;
-    if(std::regex_match(str, matches, pattern)){
-        std::cout << str;
-    }*/
-    int c=ToMiliseconds("01:02:10,101");
-    std::cout << c << " tu co jestt";
-
-
+    std::cout << FromMilisecondsToString(ToMiliseconds("00:05:56,722")+300);
     return 0;
 }
