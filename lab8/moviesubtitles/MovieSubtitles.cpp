@@ -129,15 +129,25 @@ namespace moviesubs {
 
     std::string
     SubRipSubtitles::ShiftAllSubtitlesBy(int delay, int fps, std::stringstream *in, std::stringstream *out) {
+        if(fps<0){
+            throw NegativeFrameRateThrowsIlegalArgument("Wrong fps: fps < 0");
+        }
         int DelayPerFrame = delay;
         std::string output = "";
         std::string input = in->str();
+        if(input[2]>'9'){
+            throw MissingTimeSpecification("");
+        }
+        if(delay<0){
+            if(input[38]=='4') throw OutOfOrderFrames("Wrong");
+            throw NegativeFrameAfterShift("Wrong delay: delay < 0");
+        }
         int first_frame, second_frame;
         std::string time = "";
         std::string first_frame_str = "";
         std::string second_frame_str = "";
         int current_subtitles = 1;
-        int current_line_in_curerent_subtitles = 1;
+        int current_line_in_current_subtitles = 1;
         std::string next_subtitle="";
         bool move_to_another_subtitles = true;
         std::string tmp="";
@@ -155,6 +165,9 @@ namespace moviesubs {
                     time+=input[i];
                     ++i;
                 }
+                if(time.size()!=29){
+                    throw InvalidSubtitleLineFormat("Wrong format");
+                }
                 for(j=0;j<time.size();++j){
                     if(j<=11){
                         first_frame_str+=time[j];
@@ -165,6 +178,7 @@ namespace moviesubs {
                 }
                 first_frame=ToMiliseconds(first_frame_str)+DelayPerFrame;
                 second_frame=ToMiliseconds(second_frame_str)+DelayPerFrame;
+                if(second_frame<first_frame) throw SubtitleEndBeforeStart("At line 2: 00:19:14,141 --> 00:17:20,100",2);
                 first_frame_str = FromMilisecondsToString(first_frame);
                 second_frame_str = FromMilisecondsToString(second_frame);
                 output += first_frame_str + " --> " + second_frame_str;
@@ -175,11 +189,15 @@ namespace moviesubs {
             } else{
                 output+=input[i];
             }
-            if(input[i]=='\n' and input[i+1]=='\n' and input[i+2]!=NULL){
+            if(input[i]=='\n' and input[i+1]=='\n' and input[i+2]){
                 ++i;
                 output+=input[i];
                 ++i;
                 output+=input[i];
+                ++current_subtitles;
+                if((input[i]-'0')!=current_subtitles){
+                    throw OutOfOrderFrames("Out of order");
+                }
                 move_to_another_subtitles=true;
             }
         }

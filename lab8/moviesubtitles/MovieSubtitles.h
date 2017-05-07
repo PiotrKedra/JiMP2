@@ -49,9 +49,17 @@ namespace moviesubs{
     private:
         int line_;
     };
-    class InvalidSubtitleLineFormat : MovieSubtitlesException{
+    class InvalidSubtitleLineFormat : public MovieSubtitlesException{
     public:
         InvalidSubtitleLineFormat(std::string message) : MovieSubtitlesException(message){}
+    };
+    class MissingTimeSpecification : public MovieSubtitlesException{
+    public:
+        MissingTimeSpecification(std::string message) : MovieSubtitlesException(message){}
+    };
+    class OutOfOrderFrames : public MovieSubtitlesException{
+    public:
+        OutOfOrderFrames(std::string message) : MovieSubtitlesException(message){}
     };
 
 }
