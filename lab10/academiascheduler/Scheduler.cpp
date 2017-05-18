@@ -5,33 +5,33 @@
 #include <algorithm>
 #include "Scheduler.h"
 
-namespace academia{
-    void Schedule::InsertScheduleItem(const SchedulingItem &item){
+namespace academia {
+    void Schedule::InsertScheduleItem(const SchedulingItem &item) {
         time_.push_back(item);
-        std::sort(time_.begin(),time_.end(),
+        std::sort(time_.begin(), time_.end(),
                   [](SchedulingItem a, SchedulingItem b) {
-                      return a.GetTimeSlot() < b.GetTimeSlot();
+                      return a.TimeSlot() < b.TimeSlot();
                   });
     }
 
     Schedule Schedule::OfTeacher(int teacher_id) const {
         Schedule of_teacher;
-        std::copy_if(this->time_.begin(),this->time_.end(),of_teacher.time_.begin(),
-                     [teacher_id](SchedulingItem a){ return (a.GetTeacherId()==teacher_id);});
+        std::copy_if(this->time_.begin(), this->time_.end(), std::back_inserter(of_teacher.time_),
+                     [teacher_id](SchedulingItem a) { return (a.TeacherId() == teacher_id); });
         return of_teacher;
     }
 
     Schedule Schedule::OfRoom(int room_id) const {
         Schedule of_room;
-        std::copy_if(this->time_.begin(),this->time_.end(),of_room.time_.begin(),
-                     [room_id](SchedulingItem a){ return (a.GetRoomId()==room_id);});
+        std::copy_if(this->time_.begin(), this->time_.end(), std::back_inserter(of_room.time_),
+                     [room_id](SchedulingItem a) { return (a.RoomId() == room_id); });
         return of_room;
     }
 
     Schedule Schedule::OfYear(int year) const {
         Schedule of_year;
-        std::copy_if(this->time_.begin(),this->time_.end(),of_year.time_.begin(),
-                     [year](SchedulingItem a){ return (a.GetYear()==year);});
+        std::copy_if(this->time_.begin(), this->time_.end(), std::back_inserter(of_year.time_),
+                     [year](SchedulingItem a) { return (a.Year() == year); });
         return of_year;
     }
 
@@ -41,25 +41,14 @@ namespace academia{
 
     std::vector<int> Schedule::AvailableTimeSlots(int n_time_slots) const {
         std::vector<int> available;
-        for(int i=1;i<=n_time_slots;++i){
-            available.push_back(i);
-        }
-        int k=0;
-        if(!this->time_[k].GetTimeSlot()){
-            return available;
-        }
-        int j=this->time_[k].GetTimeSlot();
-        for(int i=1;i<=n_time_slots;++i){
-            if(i==j){
-                std::remove(available.begin(),available.end(),i);
-                ++k;
-                if(!this->time_[k].GetTimeSlot()){
-                    return available;
-                }
-                j=this->time_[k].GetTimeSlot();
+        for (int i = 1; i < n_time_slots + 1; ++i) {
+            if (!std::any_of(time_.begin(), time_.end(),
+                             [i](const SchedulingItem in_iter) {
+                                 return i == in_iter.TimeSlot();
+                             })) {
+                available.push_back(i);
             }
         }
         return available;
     }
-
 }

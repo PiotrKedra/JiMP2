@@ -14,16 +14,19 @@ namespace academia{
         SchedulingItem(int courseId, int teacherId, int roomId, int timeSlot, int year):
                 course_id(courseId),teacher_id(teacherId),room_id(roomId),
                 time_slot(timeSlot),year_(year){}
-        int GetTimeSlot(){
+        int CourseId() const{
+            return course_id;
+        }
+        int TimeSlot() const{
             return time_slot;
         }
-        int GetTeacherId(){
+        int TeacherId() const{
             return teacher_id;
         }
-        int  GetRoomId(){
+        int  RoomId() const{
             return room_id;
         }
-        int GetYear(){
+        int Year() const{
             return year_;
         }
     private:
@@ -41,16 +44,11 @@ namespace academia{
         std::vector<int> AvailableTimeSlots(int n_time_slots) const;
         void InsertScheduleItem(const SchedulingItem &item);
         size_t Size() const;
-        SchedulingItem operator[](int i){
+        const SchedulingItem operator[](const int i) const{
             return time_[i];
         }
     private:
         std::vector<SchedulingItem> time_;
-        /*std::vector<SchedulingItem> Monday;
-        std::vector<SchedulingItem> Tuesday;
-        std::vector<SchedulingItem> Wednesday;
-        std::vector<SchedulingItem> Thursday;
-        std::vector<SchedulingItem> Friday;*/
     };
 }
 
