@@ -28,7 +28,12 @@ namespace factoryMethod{
     }
     template <class T>
     auto Avrage(T t){
-        
+        auto value=t[0]-t[0];
+        for(auto e: t){
+            value+=e;
+        }
+        value=value/t.size();
+        return value;
     }
 }
 
