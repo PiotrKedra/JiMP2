@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <cstddef>
+#include <map>
+#include <set>
 
 namespace academia{
     class SchedulingItem{
