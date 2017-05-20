@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <iostream>
 #include "Scheduler.h"
 
 namespace academia {
@@ -36,7 +37,16 @@ namespace academia {
         return of_year;
     }
 
-    size_t Schedule::Size() const {
+
+    Schedule Schedule::OfCourse(int course) const {
+        Schedule out;
+        std::copy_if(this->time_.begin(), this->time_.end(), std::back_inserter(out.time_),
+                     [course](const SchedulingItem &compare) { return compare.CourseId() == course; });
+        return out;
+    }
+
+
+        size_t Schedule::Size() const {
         return time_.size();
     }
 
@@ -62,13 +72,29 @@ namespace academia {
 //                                                     [](std::pair<int,std::set<int>> it)
 //                                                     { return it.second.size();}))
 //            throw NoViableSolutionFound("NoViableSolutionFound") ; //not sure if trow is well writen
-
-        SchedulingItem a(1,2,3,4,5);
-        Schedule p;
-        p.InsertScheduleItem(a);
-
-
-
-        return p;
+        Schedule new_schedule;
+        for(auto teacher : teacher_courses_assignment) {
+            std::vector<int> CourseIds = teacher.second;
+            for(auto course : CourseIds) {
+                new_schedule.InsertScheduleItem(SchedulingItem(course,teacher.first,0,0,0));
+            }
+        }
+        for(auto &item : new_schedule.time_) {
+            for (auto year : courses_of_year) {
+                for (auto course : year.second) {
+                    if (item.CourseId() == course) {
+                        item.year_ = year.first;
+                    }
+                }
+            }
+        }
+        int i=1;
+        for(auto item1: new_schedule.time_){
+            item1.room_id = 1000;
+            item1.time_slot = i;
+            ++i;
+            std::cout << item1.CourseId() << ", " << item1.TeacherId() << ", " << item1.RoomId() <<", "<< item1.TimeSlot() <<", "<<item1.Year() << '\n';
+        }
+        return new_schedule;
     }
 }

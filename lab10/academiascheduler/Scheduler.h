@@ -32,7 +32,7 @@ namespace academia{
         int Year() const{
             return year_;
         }
-    private:
+    //private:
         int course_id;
         int teacher_id;
         int room_id;
@@ -44,13 +44,14 @@ namespace academia{
         Schedule OfTeacher(int teacher_id) const;
         Schedule OfRoom(int room_id) const;
         Schedule OfYear(int year) const;
+        Schedule OfCourse(int course) const;
         std::vector<int> AvailableTimeSlots(int n_time_slots) const;
         void InsertScheduleItem(const SchedulingItem &item);
         size_t Size() const;
         const SchedulingItem operator[](const int i) const{
             return time_[i];
         }
-    private:
+
         std::vector<SchedulingItem> time_;
     };
 
