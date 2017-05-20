@@ -58,7 +58,8 @@ namespace academia {
         //jesli iloczyn slotow i sal jest mniejszy nisz suma wszystkich zajec studentow to nie da sie ułozyc planu
         if(rooms.size()*n_time_slots < std::accumulate(courses_of_year.begin(),courses_of_year.end(),0,
                                                      [](std::pair<int,std::set<int>> it)
-                                                     { return it.second.size();})) ; //insert exeption here
+                                                     { return it.second.size();}))
+            throw NoViableSolutionFound("NoViableSolutionFound") ; //not sure if trow is well writen
 
 
 
