@@ -51,4 +51,19 @@ namespace academia {
         }
         return available;
     }
+
+    Schedule GreedyScheduler::PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int,
+            std::vector<int>> &teacher_courses_assignment, const std::map<int, std::set<int>> &courses_of_year,
+                                                 int n_time_slots) {
+        //jesli iloczyn slotow i sal jest mniejszy nisz suma wszystkich zajec studentow to nie da sie ułozyc planu
+        if(rooms.size()*n_time_slots < std::accumulate(courses_of_year.begin(),courses_of_year.end(),0,
+                                                     [](std::pair<int,std::set<int>> it)
+                                                     { return it.second.size();})) ; //insert exeption here 
+
+
+
+
+
+        return Scheduler::PrepareNewSchedule(rooms, teacher_courses_assignment, courses_of_year, n_time_slots);
+    }
 }
