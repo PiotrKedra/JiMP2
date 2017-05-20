@@ -66,35 +66,69 @@ namespace academia {
     Schedule GreedyScheduler::PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int,
             std::vector<int>> &teacher_courses_assignment, const std::map<int, std::set<int>> &courses_of_year,
                                                  int n_time_slots) {
-// wykomentowane by sprobwac zbuldowac testy, main sie builduje
-//        //jesli iloczyn slotow i sal jest mniejszy nisz suma wszystkich zajec studentow to nie da sie ułozyc planu
-//        if(rooms.size()*n_time_slots < std::accumulate(courses_of_year.begin(),courses_of_year.end(),0,
-//                                                     [](std::pair<int,std::set<int>> it)
-//                                                     { return it.second.size();}))
-//            throw NoViableSolutionFound("NoViableSolutionFound") ; //not sure if trow is well writen
-        Schedule new_schedule;
-        for(auto teacher : teacher_courses_assignment) {
-            std::vector<int> CourseIds = teacher.second;
-            for(auto course : CourseIds) {
-                new_schedule.InsertScheduleItem(SchedulingItem(course,teacher.first,0,0,0));
-            }
-        }
-        for(auto &item : new_schedule.time_) {
-            for (auto year : courses_of_year) {
-                for (auto course : year.second) {
-                    if (item.CourseId() == course) {
-                        item.year_ = year.first;
+
+        int course_id_check=0;
+        int wantedLectures=0;
+        for(auto &c : courses_of_year)
+        {
+            for(auto &d : c.second)
+            {
+                course_id_check=d;
+                for(auto &f : teacher_courses_assignment)
+                {
+                    for(auto &g : f.second)
+                    {
+                        if(g==course_id_check) wantedLectures++;
                     }
                 }
+                if(wantedLectures>n_time_slots) throw NoViableSolutionFound("No solution found");
+                wantedLectures=0;
             }
         }
-        int i=1;
-        for(auto item1: new_schedule.time_){
-            item1.room_id = 1000;
-            item1.time_slot = i;
-            ++i;
-            std::cout << item1.CourseId() << ", " << item1.TeacherId() << ", " << item1.RoomId() <<", "<< item1.TimeSlot() <<", "<<item1.Year() << '\n';
+        Schedule schedule;
+        std::vector<int> rooms_act = rooms;
+        int teacher_id=0;
+        int course_id=0;
+        int year_id=0;
+        int room_id=0;
+        int n=1;
+        bool room_full=false;
+        for(auto const &teacher : teacher_courses_assignment)
+        {
+            teacher_id=teacher.first;
+            for(auto const &item : teacher.second)
+            {
+                course_id=item;
+                for(auto const &year : courses_of_year)
+                {
+                    if(year.second.find(course_id)!=year.second.end())
+                    {
+                        year_id=year.first;
+                        break;
+                    }
+                }
+                for(auto &room : rooms_act)
+                {
+                    if(n<=n_time_slots)
+                    {
+                        room_id=room;
+                        break;
+                    } else if(rooms_act.size()>1){
+                        room_full=true;
+                        n=1;
+                    }
+                    else throw NoViableSolutionFound("No solution found");
+                }
+                if(room_full) rooms_act.erase(rooms_act.begin());
+                room_full=false;
+                if(n>n_time_slots or rooms_act.size()==0) throw NoViableSolutionFound("No solution found");
+                SchedulingItem tmp(course_id,teacher_id,room_id,n,year_id);
+                n++;
+                year_id=0;
+                room_id=0;
+                schedule.InsertScheduleItem(tmp);
+            }
         }
-        return new_schedule;
+        return schedule;
     }
 }
