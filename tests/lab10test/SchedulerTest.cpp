@@ -213,7 +213,8 @@ TEST_F(ScheduleTest, SchedulerCreatesScheduleOfSingleYear) {
   unique_ptr<Scheduler> scheduler = make_unique<GreedyScheduler>();
 
   vector<int> rooms{1000};
-  map<int, vector<int>> teachers{make_pair(100, vector<int>{10, 20}), make_pair(200, vector<int>{30}),
+  map<int, vector<int>> teachers{make_pair(100, vector<int>{10, 20}),
+                                 make_pair(200, vector<int>{30}),
                                  make_pair(300, vector<int> {40})};
   map<int, set<int>> years{make_pair(1, set<int>{10, 20}), make_pair(2, set<int>{30, 40})};
 
