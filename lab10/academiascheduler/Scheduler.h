@@ -69,6 +69,7 @@ namespace academia{
                                     int n_time_slots) override;
     };
     class NoViableSolutionFound: public std::runtime_error{
+    public:
         NoViableSolutionFound(const std::string message): std::runtime_error(message){}
     };
 }
