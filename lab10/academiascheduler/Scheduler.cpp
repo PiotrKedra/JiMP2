@@ -8,10 +8,10 @@
 namespace academia {
     void Schedule::InsertScheduleItem(const SchedulingItem &item) {
         time_.push_back(item);
-        std::sort(time_.begin(), time_.end(),
+        /*std::sort(time_.begin(), time_.end(),
                   [](SchedulingItem a, SchedulingItem b) {
                       return a.TimeSlot() < b.TimeSlot();
-                  });
+                  });*/
     }
 
     Schedule Schedule::OfTeacher(int teacher_id) const {
