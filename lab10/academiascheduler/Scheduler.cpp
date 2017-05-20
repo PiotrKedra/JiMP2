@@ -37,16 +37,7 @@ namespace academia {
         return of_year;
     }
 
-
-    Schedule Schedule::OfCourse(int course) const {
-        Schedule out;
-        std::copy_if(this->time_.begin(), this->time_.end(), std::back_inserter(out.time_),
-                     [course](const SchedulingItem &compare) { return compare.CourseId() == course; });
-        return out;
-    }
-
-
-        size_t Schedule::Size() const {
+    size_t Schedule::Size() const {
         return time_.size();
     }
 
