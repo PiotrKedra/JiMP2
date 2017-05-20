@@ -56,16 +56,35 @@ namespace academia {
     Schedule GreedyScheduler::PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int,
             std::vector<int>> &teacher_courses_assignment, const std::map<int, std::set<int>> &courses_of_year,
                                                  int n_time_slots) {
-        //jesli iloczyn slotow i sal jest mniejszy nisz suma wszystkich zajec studentow to nie da sie ułozyc planu
-        if(rooms.size()*n_time_slots < std::accumulate(courses_of_year.begin(),courses_of_year.end(),0,
-                                                     [](std::pair<int,std::set<int>> it)
-                                                     { return it.second.size();}))
-            throw NoViableSolutionFound("NoViableSolutionFound") ; //not sure if trow is well writen
+// wykomentowane by sprobwac zbuldowac testy, main sie builduje
+//        //jesli iloczyn slotow i sal jest mniejszy nisz suma wszystkich zajec studentow to nie da sie ułozyc planu
+//        if(rooms.size()*n_time_slots < std::accumulate(courses_of_year.begin(),courses_of_year.end(),0,
+//                                                     [](std::pair<int,std::set<int>> it)
+//                                                     { return it.second.size();}))
+//            throw NoViableSolutionFound("NoViableSolutionFound") ; //not sure if trow is well writen
+
+        SchedulingItem a(1,2,3,4,5);
+        Schedule p;
+        p.InsertScheduleItem(a);
+
+
+
+        return p;
+    }
 
 
 
 
 
-        return Scheduler::PrepareNewSchedule(rooms, teacher_courses_assignment, courses_of_year, n_time_slots);
+
+
+
+
+
+
+    Schedule Scheduler::PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int,
+            std::vector<int>> &teacher_courses_assignment, const std::map<int, std::set<int>> &courses_of_year,
+                                           int n_time_slots) {
+        return Schedule();
     }
 }
