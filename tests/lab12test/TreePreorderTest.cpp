@@ -5,7 +5,8 @@
 #include <vector>
 #include <gtest/gtest.h>
 #include <MemLeakTest.h>
-#include "TreeIterators.h"
+#include "../../lab12/tree/Tree.h"
+#include "../../lab12/tree/TreeIterators.h"
 
 using ::std::vector;
 using ::std::string;
