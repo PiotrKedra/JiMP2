@@ -6,14 +6,14 @@
 #define JIMP_EXERCISES_TREE_H
 
 #import <memory>
-
+#include <iostream>
 namespace tree {
     template<class T>
     class Tree {
     public:
         Tree() : left_(nullptr), right_(nullptr) {}
 
-        Tree(T value) : value_(value), left_(nullptr), right_(nullptr), size_(1) {}
+        Tree(T value) : value_(value), left_(nullptr), right_(nullptr), size_(1), depth_(1) {}
 
         T Value() {
             return value_;
@@ -27,44 +27,67 @@ namespace tree {
             ++size_;
             if (!this->value_) {
                 value_ = new_value;
+                depth_=1;
             } else {
-                Tree new_node(new_value);
+                Tree<T> *new_node =new Tree<T> {new_value};
                 Tree *next = this;
                 Tree *prev = this;
+                int local_depth=1;
                 while (next != nullptr) {
                     prev = next;
-                    if (new_node.Value() < next->Value()) {
+                    local_depth++;
+                    if (new_node->Value() < next->Value()) {
+                        std::cout<<"Uno"<<new_value<<new_node->Value()<<next->Value();
                         next = next->left_;
+
                     } else {
+                        std::cout<<"Buno"<<new_value<<next->Value();
                         next = next->right_;
+
                     }
                 }
-                if (prev->Value() < new_node.Value()) {
-                    prev->left_ = &new_node;
+                if (prev->Value() < new_node->Value()) {
+                    prev->right_ = new_node;
                 } else {
-                    prev->right_ = &new_node;
+                    prev->left_ =new_node;
                 }
+            if(local_depth>depth_) depth_=local_depth;
             }
         }
         int Size(){
             return size_;
         }
         int Depth(){
-            if(this == nullptr) return 0;
-            else {
-                int lchild = this->left_->Depth();
-                int rchild = this->right_->Depth();
-                if(lchild <= rchild) return rchild+1;
-                else return lchild+1;
-            }
+//            if(this == nullptr) return 0;
+//            else {
+//                int lchild;
+//                int rchild;
+//                if(this ->left_!= nullptr) lchild = this->left_->Depth();
+//                else lchild=0;
+//                if(this->right_ != nullptr) rchild = this->right_->Depth();
+//                else rchild=0;
+//                if(lchild <= rchild) return rchild+1;
+//                else return lchild+1;
+//            }
+            return depth_;
         }
+        ~Tree(){
+            if(left_!= nullptr) delete left_;
+            if(right_!= nullptr) delete right_;
+
+
+        }
+
+
     public:
         T value_;
-        Tree *left_, *right_;
+        Tree *left_= nullptr;
+        Tree *right_= nullptr;
         int size_=0;
+        int depth_=0;
 
     };
-    
+
 }
 
 
