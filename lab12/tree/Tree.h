@@ -9,11 +9,12 @@
 #include <iostream>
 namespace tree {
     template<class T>
-    class Tree {
+    class Tree: public std::enable_shared_from_this<Tree<T>> {
     public:
-        Tree() : left_(nullptr), right_(nullptr) {}
 
-        Tree(T value) : value_(value), left_(nullptr), right_(nullptr), size_(1), depth_(1) {}
+        Tree() : sleft(nullptr), sright(nullptr) {}
+
+        Tree(T value) : value_(value), sleft(nullptr), sright(nullptr), size_(1), depth_(1) {}
 
         T Value() {
             return value_;
@@ -25,64 +26,39 @@ namespace tree {
 
         void Insert(T new_value) {
             ++size_;
-            if (!this->value_) {
+            if (!this->value_ && value_==0) {
                 value_ = new_value;
                 depth_=1;
             } else {
-                Tree<T> *new_node =new Tree<T> {new_value};
-                Tree *next = this;
-                Tree *prev = this;
-                int local_depth=1;
-                while (next != nullptr) {
-                    prev = next;
-                    local_depth++;
-                    if (new_node->Value() < next->Value()) {
-                        std::cout<<"Uno"<<new_value<<new_node->Value()<<next->Value();
-                        next = next->left_;
-
-                    } else {
-                        std::cout<<"Buno"<<new_value<<next->Value();
-                        next = next->right_;
-
-                    }
+                std::shared_ptr<Tree<T>> bud=std::make_shared<Tree>(new_value);
+                std::shared_ptr<Tree<T>> p1;
+                std::shared_ptr<Tree<T>> p2;
+                if(this->value_>new_value) p2=this->sleft;
+                else p1=this->sleft;
+                p1=this->shared_from_this();
+                while(p2 !=nullptr){
+                    p1=p2;
+                    if(p2->value_>new_value) p2=p2->sleft;
+                    else p2=p2->sright;
                 }
-                if (prev->Value() < new_node->Value()) {
-                    prev->right_ = new_node;
-                } else {
-                    prev->left_ =new_node;
-                }
-            if(local_depth>depth_) depth_=local_depth;
+                if(p1->value_>new_value) p1->sleft=bud;
+                else p1->sright=bud;
+
             }
         }
         int Size(){
             return size_;
         }
         int Depth(){
-//            if(this == nullptr) return 0;
-//            else {
-//                int lchild;
-//                int rchild;
-//                if(this ->left_!= nullptr) lchild = this->left_->Depth();
-//                else lchild=0;
-//                if(this->right_ != nullptr) rchild = this->right_->Depth();
-//                else rchild=0;
-//                if(lchild <= rchild) return rchild+1;
-//                else return lchild+1;
-//            }
             return depth_;
         }
-        ~Tree(){
-            if(left_!= nullptr) delete left_;
-            if(right_!= nullptr) delete right_;
 
-
-        }
 
 
     public:
         T value_;
-        Tree *left_= nullptr;
-        Tree *right_= nullptr;
+        std::shared_ptr<Tree> sleft;
+        std::shared_ptr<Tree> sright;
         int size_=0;
         int depth_=0;
 
