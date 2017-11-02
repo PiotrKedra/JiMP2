@@ -8,6 +8,7 @@
 #include <MemLeakTest.h>
 #include <StringUtility.h>
 #include <Square.h>
+#include <cmath>
 
 using ::geometry::Point;
 using ::geometry::Square;
@@ -15,6 +16,7 @@ using ::std::make_unique;
 using ::utility::FromString;
 using ::std::tuple;
 using ::std::pair;
+using ::std::sqrt;
 
 using ::std::tie;
 
