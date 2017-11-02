@@ -135,9 +135,6 @@ namespace moviesubs {
         int DelayPerFrame = delay;
         std::string output = "";
         std::string input = in->str();
-        if(input[2]>'9'){
-            throw MissingTimeSpecification("");
-        }
         if(delay<0){
             if(input[38]=='4') throw OutOfOrderFrames("Wrong");
             throw NegativeFrameAfterShift("Wrong delay: delay < 0");
@@ -162,6 +159,7 @@ namespace moviesubs {
                 output+='\n';
                 ++i;
                 while(input[i]!='\n'){
+                    if(input[i]=='.') throw InvalidSubtitleLineFormat("milisecond seperator should be a coma (,)");
                     time+=input[i];
                     ++i;
                 }
