@@ -153,7 +153,7 @@ Syntax: cpplint.py [--verbose=#] [--output=vs7] [--filter=-x,+y,...]
       root=subdir
       headers=x,y,...
 
-    "set noparent" option prevents cpplint from traversing directory tree
+    "set noparent" option prevents cpplint from traversing directory tree12
     upwards looking for more .cfg files in parent directories. This option
     is usually placed in the top-level project directory.
 
@@ -337,7 +337,7 @@ _CPP_HEADERS = frozenset([
     'strfile.h',
     'strstream.h',
     'tempbuf.h',
-    'tree.h',
+    'tree12.h',
     'type_traits.h',
     'vector.h',
     # 17.6.1.2 C++ library headers
@@ -1098,7 +1098,7 @@ class FileInfo(object):
 
       if os.path.exists(os.path.join(project_dir, ".svn")):
         # If there's a .svn file in the current directory, we recursively look
-        # up the directory tree for the top of the SVN checkout
+        # up the directory tree12 for the top of the SVN checkout
         root_dir = project_dir
         one_up_dir = os.path.dirname(root_dir)
         while os.path.exists(os.path.join(one_up_dir, ".svn")):

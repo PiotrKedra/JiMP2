@@ -25,7 +25,7 @@ Supported version control systems:
   Mercurial
   Subversion
 
-It is important for Git/Mercurial users to specify a tree/node/branch to diff
+It is important for Git/Mercurial users to specify a tree12/node/branch to diff
 against by using the '--rev' option.
 """
 # This code is derived from appcfg.py in the App Engine SDK (open source),
@@ -449,7 +449,7 @@ group.add_option("--download_base", action="store_true",
                  "(side-by-side diffs may not work on files with CRs).")
 group.add_option("--rev", action="store", dest="revision",
                  metavar="REV", default=None,
-                 help="Branch/tree/revision to diff against (used by DVCS).")
+                 help="Branch/tree12/revision to diff against (used by DVCS).")
 group.add_option("--send_mail", action="store_true",
                  dest="send_mail", default=False,
                  help="Send notification email to reviewers.")
@@ -1232,11 +1232,11 @@ def GuessVCS(options):
     logging.info("Guessed VCS = Subversion")
     return SubversionVCS(options)
 
-  # Git has a command to test if you're in a git tree.
+  # Git has a command to test if you're in a git tree12.
   # Try running it, but don't die if we don't have git installed.
   try:
     out, returncode = RunShellWithReturnCode(["git", "rev-parse",
-                                              "--is-inside-work-tree"])
+                                              "--is-inside-work-tree12"])
     if returncode == 0:
       return GitVCS(options)
   except OSError, (errno, message):
