@@ -3,6 +3,7 @@
 //
 
 #include "XorCypherBreaker.h"
+<<<<<<< HEAD
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -22,6 +23,16 @@ string XorCypherBreaker(const vector<char> &cryptogram, int key_length, const ve
     if (find(dictionary.begin(),dictionary.end(),password) != dictionary.end()) return password;
 
 
+=======
+#include <algorithm>
+
+using std::string;
+using std::vector;
+
+string XorCypherBreaker(const vector<char> &cryptogram, const vector<string> &dictionary){
+    vector<char> key;
+    
+>>>>>>> remotes/origin/lab3
 
 
 }
