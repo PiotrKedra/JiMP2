@@ -1,4 +1,4 @@
-### C++ programming classes problmes ###
+### C++ programming classes ###
 
-University classes in C++ prepared by Michał Wypych
+
 
